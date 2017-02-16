@@ -1,0 +1,15 @@
+{
+	"name"       : "mikejakobsen/instagram",
+	"description": "Instagram feed",
+	"type"       : "wordpress-plugin",
+	"license"    : "GPL-2.0+",
+	"authors"    : [
+		{
+			"name"    : "Mike Jakobsen",
+			"homepage": "http://mikejakobsen.com"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0"
+	}
+}
