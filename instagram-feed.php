@@ -45,7 +45,9 @@ Class null_instagram_widget extends WP_Widget {
 	function widget( $args, $instance ) {
 
 		$title = empty( $instance['title'] ) ? '' : apply_filters( 'widget_title', $instance['title'] );
-		$username = empty( $instance['username'] ) ? '' : $instance['username'];
+		// $username = empty( $instance['username'] ) ? '' : $instance['username'];
+    // Loads the user from the WP settings, in stead of the widget
+		$username = get_option( 'options_instagram_user' );
 		$limit = empty( $instance['number'] ) ? 9 : $instance['number'];
 		$size = empty( $instance['size'] ) ? 'large' : $instance['size'];
 		$target = empty( $instance['target'] ) ? '_self' : $instance['target'];
@@ -53,7 +55,6 @@ Class null_instagram_widget extends WP_Widget {
 
 		echo $args['before_widget'];
 
-		if ( ! empty( $title ) ) { echo $args['before_title'] . wp_kses_post( $title ) . $args['after_title']; };
 
 		do_action( 'wpiw_before_widget', $instance );
 
@@ -126,7 +127,6 @@ Class null_instagram_widget extends WP_Widget {
 		$target = $instance['target'];
 		$link = $instance['link'];
 		?>
-		<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Titel', 'wp-instagram-widget' ); ?>: <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></label></p>
 		<p><label for="<?php echo esc_attr( $this->get_field_id( 'username' ) ); ?>"><?php esc_html_e( '@brugernavn eller #hashtag', 'wp-instagram-widget' ); ?>: <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'username' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'username' ) ); ?>" type="text" value="<?php echo esc_attr( $username ); ?>" /></label></p>
 		<p><label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>"><?php esc_html_e( 'Antal billeder', 'wp-instagram-widget' ); ?>: <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="text" value="<?php echo esc_attr( $number ); ?>" /></label></p>
 		<p><label for="<?php echo esc_attr( $this->get_field_id( 'size' ) ); ?>"><?php esc_html_e( 'Billed størrelse', 'wp-instagram-widget' ); ?>:</label>
@@ -149,7 +149,6 @@ Class null_instagram_widget extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
-		$instance['title'] = strip_tags( $new_instance['title'] );
 		$instance['username'] = trim( strip_tags( $new_instance['username'] ) );
 		$instance['number'] = ! absint( $new_instance['number'] ) ? 9 : $new_instance['number'];
 		$instance['size'] = ( ( 'thumbnail' === $new_instance['size'] || 'large' === $new_instance['size'] || 'small' === $new_instance['size'] || 'original' === $new_instance['size'] ) ? $new_instance['size'] : 'large' );
